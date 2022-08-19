@@ -7,7 +7,7 @@ services:
     build: .
     command: yarn start
     ports:
-      - 127.0.0.1:8080:8080
+      - 127.0.0.1:5500:5500
     volumes:
       - ./:/app
   mongo:
