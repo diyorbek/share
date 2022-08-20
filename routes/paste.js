@@ -11,6 +11,47 @@ const {
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  try {
+    const userId = idetifyUser(req);
+    const pastes = (await Paste.find({ userId })).map((paste) => ({
+      url: generateViewShortUrl(paste.urlId),
+      title: paste.title,
+      content: paste.content,
+      language: paste.language,
+      expiresAt: paste.expiresAt,
+    }));
+
+    return res.json(pastes);
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json("Server error");
+  }
+});
+
+router.get("/:urlId", async (req, res) => {
+  try {
+    const { urlId } = req.params;
+    const paste = await Paste.findOne({
+      $and: [{ urlId }, { expiresAt: { $gt: new Date() } }],
+    });
+
+    if (!paste) return res.status(404).json("Not found");
+
+    return res.json({
+      title: paste.title,
+      content: paste.content,
+      language: paste.language,
+      expiresAt: paste.expiresAt,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json("Server error");
+  }
+});
+
 router.post("/", async (req, res) => {
   const userId = idetifyUser(req);
 
@@ -44,10 +85,10 @@ router.post("/", async (req, res) => {
 
     res.json({
       url: generateViewShortUrl(newPaste.urlId),
-      title,
-      content,
-      language,
-      expiresAt,
+      title: newPaste.title,
+      content: newPaste.content,
+      language: newPaste.language,
+      expiresAt: newPaste.expiresAt,
     });
   } catch (error) {
     console.log(error);

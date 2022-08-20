@@ -12,7 +12,7 @@ function isValidWebUrl(url) {
 }
 
 function generateViewShortUrl(urlHash) {
-  return `${process.env.BASE_URL}/view/${urlHash}`;
+  return `${process.env.BASE_URL}/api/paste/${urlHash}`;
 }
 
 const ONE_MINUTE = 60_000;
