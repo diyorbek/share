@@ -1,10 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const User = require("../models/User");
 const authorize = require("../middlewares/authorize");
 const { AUTH_COOKIE_NAME, TOKEN_KEY } = require("../middlewares/authorize");
-const { ONE_DAY } = require("../helpers");
+const { ONE_DAY } = require("../helpers/misc");
 
 const router = express.Router();
 
