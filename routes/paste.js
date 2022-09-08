@@ -8,10 +8,11 @@ const {
   getExpirationDate,
   idetifyUser,
 } = require("../helpers/misc");
+const authorize = require("../middlewares/authorize");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", authorize, async (req, res) => {
   try {
     const userId = idetifyUser(req);
     const pastes = (await Paste.find({ userId })).map((paste) => ({
@@ -52,7 +53,7 @@ router.get("/:urlId", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authorize, async (req, res) => {
   const userId = idetifyUser(req);
 
   if (!userId || !isValidPaste(req.body)) {
