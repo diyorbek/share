@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const pasteSchema = Schema({
   urlId: { type: String, required: true, unique: true },
   title: { type: String, required: true, maxLength: 100 },
-  content: { type: String, required: true },
+  content: { type: String, required: true, maxLength: 100 * 1024 },
   language: { type: String, required: true },
   expiresAt: { type: Date, required: true },
   isDeleted: { type: Boolean, default: false },
